@@ -1,14 +1,5 @@
 # Proposed Workflow for TDD on console
 
-This document is based mainly on the following articles/documents:
-
-* [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
-* [The delightful storybook  - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
-* [Component driven](https://www.componentdriven.org/)
-* [UI testing playbook](https://storybook.js.org/blog/ui-testing-playbook/)
-* [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
-* [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)
-
 ## Aim
 
 ### What it is
@@ -44,13 +35,14 @@ The workflow we use will lean on three aspects (elaborated below):
 
 **Code gen**
 
-When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
+* When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
 
 // TODO example to follow when tool is merged
 
-When the tool is run a file structure similar to this will be generated:
+* When the tool is run a file structure similar to this will be generated:
 
-```src/features/awesome-feature
+```
+src/features/awesome-feature
 |
 +-- api         # exported API request declarations and api hooks related to a specific feature
 |
@@ -68,9 +60,26 @@ When the tool is run a file structure similar to this will be generated:
 |
 +-- utils       # utility functions for a specific feature
 |
-+-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature```
++-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
+```
 
 **Build components in storybooks**
+
+* Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
+* We should follow a "Component Driven Design" approach. This generally means 2 things:
+  1. Start with the smallest components and build up to larger components and pages composed of the smaller components
+  2. Stories are tests! When creating new components we should be following a Test Driven Development pattern, this doesn't neccessarily mean writing tests with `jest`/`react-testing-library` for every component. By following a iterative process and checking story output as we go we are naturally following Test Driven Development - our visual testing is the verify step.
+
+From Storybook's visual testing handbook:
+```
+test
+  setup
+  execute 👈 Storybook renders stories
+  verify 👈 you look at stories
+  teardown
+end
+```
+
 
 * use TDD with storybooks
 * stories should be the main tests
@@ -112,3 +121,14 @@ Collaboration and testing
 -- deploy storybook
 -- run chromatic
 -- check against baselines get others to check and comment
+
+### Refs:
+
+This document is based mainly on the following articles/documents:
+
+* [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
+* [The delightful storybook  - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
+* [Component driven](https://www.componentdriven.org/)
+* [UI testing playbook](https://storybook.js.org/blog/ui-testing-playbook/)
+* [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
+* [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)

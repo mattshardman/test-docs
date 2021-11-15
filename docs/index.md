@@ -15,11 +15,9 @@ Set in stone: feel free to disagree, update, improve etc..
 
 ## Overall Philosophy
 
-* Component driven design
-* TDD using visual testing as primary testing mechanism
+* Component Driven Design - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using msw
 * Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
-* Only use testing library to verify difficult to reach states don't overuse
-* Build up stories from small components into larger composed components and pages, each with simulated states and data mocked using msw
+* Only use testing library to verify difficult to reach states - don't overuse
 * Chromatic to automate visual testing process (pick up regressions etc).
 * Limit user-flow testing (cypress) sparingly and only to test key user flows
 
@@ -33,7 +31,7 @@ The workflow we use will lean on three aspects (elaborated below):
 
 ### Creating new components/features
 
-**Code gen**
+1. **Code gen**
 
 * When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
 
@@ -63,7 +61,7 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-**Build components in storybooks**
+2. **Build components in storybooks**
 
 * Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
 * We should follow a "Component Driven Design" approach. This generally means 2 things:
@@ -80,12 +78,12 @@ test
 end
 ```
 
+* We should only add tests using `react-testing-library` where components are particularly complicated inorder to get the component into a hard to reach state.
+* As the components increase in size/complexity they should be composed from smalled components that have already been tested and any data they need mocked using `msw` (mock service worker)
+* Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
+* Userflow testing with Cypress should be limited to key user paths and be used sparingly.
 
-* use TDD with storybooks
-* stories should be the main tests
-* only write unit tests for difficult to reach states
-
-**Collaboration**
+3. **Collaboration**
 
 * Use chromatic to automate visual testing for regressions and changes
 * Multiple developers check changes, use deployed storybook for single source of truth

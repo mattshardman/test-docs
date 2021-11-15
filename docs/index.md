@@ -62,11 +62,11 @@ Set in stone, disagree, update, improve etc..
 example of code gen feature
 ```
 
-#### Developing
+##### Developing
 
 * Using a component driven approach so start with smallest building block
 
-```tsx
+```jsx
 // Card.tsx
 import React from 'react';
 
@@ -77,7 +77,7 @@ export const Card = () => {
 export default Card
 ```
 
-```tsx
+```js
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 

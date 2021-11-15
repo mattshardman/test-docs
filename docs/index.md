@@ -19,8 +19,8 @@ Act as a guide for the workflow someone should follow when adding/upgrading a UI
 
 ### What it's not
 
-A "this is the correct way to do things"
-Set in stone, disagree, update, improve etc..
+A "this is the correct way to do things".
+Set in stone: feel free to disagree, update, improve etc..
 
 ## Overall Philosophy
 
@@ -34,18 +34,49 @@ Set in stone, disagree, update, improve etc..
 
 ## Workflow
 
-### Creating new components
+The workflow we use will lean on three aspects (elaborated below):
 
-* use code-gen
-* start with smallest components and build to largest
+1. Gode gen: Using code gen tools to create a consistent pattern of folders, files, and tests
+2. Component drvien design: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
+3. Collaboration: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
 
-### Build components in storybooks
+### Creating new components/features
+
+**Code gen**
+
+When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
+
+// TODO example to follow when tool is merged
+
+When the tool is run a file structure similar to this will be generated:
+
+```src/features/awesome-feature
+|
++-- api         # exported API request declarations and api hooks related to a specific feature
+|
++-- assets      # assets folder can contain all the static files for a specific feature
+|
++-- components  # components scoped to a specific feature
+|
+|        MyComponent.tsx (no index.ts in here)
+|
++-- hooks       # hooks scoped to a specific feature
+|
++-- stores      # state stores for a specific feature
+|
++-- types       # typescript types for ta specific feature domain
+|
++-- utils       # utility functions for a specific feature
+|
++-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature```
+
+**Build components in storybooks**
 
 * use TDD with storybooks
 * stories should be the main tests
 * only write unit tests for difficult to reach states
 
-### Collaboration
+**Collaboration**
 
 * Use chromatic to automate visual testing for regressions and changes
 * Multiple developers check changes, use deployed storybook for single source of truth
@@ -65,34 +96,6 @@ example of code gen feature
 ##### Developing
 
 * Using a component driven approach so start with smallest building block
-
-```jsx
-// Card.tsx
-import React from 'react';
-
-export const Card = () => {
-  return (<div>I'm rendering a card</div>);
-}
-
-export default Card
-```
-
-```ts
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-
-import { Card } from './Card';
-
-export default {
-  title: 'Components/Card',
-  component: Card,
-  decorators: [],
-} as Meta;
-
-export const Default: Story = args => (
-  <Card />
-);
-```
 
 Developing
 

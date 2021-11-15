@@ -25,13 +25,13 @@ Set in stone: feel free to disagree, update, improve etc..
 
 The workflow we use will lean on three aspects (elaborated below):
 
-1. Gode gen: Using code gen tools to create a consistent pattern of folders, files, and tests
+1. Code gen: Using code gen tools to create a consistent pattern of folders, files, and tests
 2. Component drvien design: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
 3. Collaboration: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
 
 ### Creating new components/features
 
-1. **Code gen**
+**1. Code gen**
 
 * When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
 
@@ -61,7 +61,7 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-2. **Build components in storybooks**
+**2. Build components in storybooks**
 
 * Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
 * We should follow a "Component Driven Design" approach. This generally means 2 things:
@@ -83,7 +83,7 @@ end
 * Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
 * Userflow testing with Cypress should be limited to key user paths and be used sparingly.
 
-3. **Collaboration**
+**3. Collaboration**
 
 * Use chromatic to automate visual testing for regressions and changes
 * Multiple developers check changes, use deployed storybook for single source of truth

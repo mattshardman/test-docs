@@ -13,9 +13,9 @@ This document is based mainly on the following articles/documents:
 
 ### What it is
 
-Set out how we approach building UIs at Hasura using TDD
-How we approach testing in a way that allows us to release things regularly that are well tested but don't have tests that are difficult to maintain and slow us down
-Act as a guide for the workflow someone should follow when adding/upgrading a UI component/feature
+Set out how we approach building UIs at Hasura using TDD.
+How we approach testing in a way that allows us to release things regularly that are well tested but don't have tests that are difficult to maintain and slow us down.
+Act as a guide for the workflow someone should follow when adding/upgrading a UI component/feature.
 
 ### What it's not
 
@@ -51,6 +51,48 @@ Set in stone, disagree, update, improve etc..
 * Multiple developers check changes, use deployed storybook for single source of truth
 
 ### Full workflow example
+
+##### Creating a component 
+
+* Creating a new a feature which is a card component
+
+* Start by using code-gen 
+
+```bash
+example of code gen feature
+```
+
+#### Developing
+
+* Using a component driven approach so start with smallest building block
+
+```tsx
+// Card.tsx
+import React from 'react';
+
+export const Card = () => {
+  return (<div>I'm rendering a card</div>);
+}
+
+export default Card
+```
+
+```tsx
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+
+import { Card } from './Card';
+
+export default {
+  title: 'Components/Card',
+  component: Card,
+  decorators: [],
+} as Meta;
+
+export const Default: Story = args => (
+  <Card />
+);
+```
 
 Developing
 

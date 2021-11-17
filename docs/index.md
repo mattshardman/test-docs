@@ -135,18 +135,22 @@ src/features/ExampleForm
 * We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
 * All sections will be mocked in Storybook including api requests
 
-1. Create a new component in the components folder. The component is going to be a simple collapsible component where we can select if something is on or off
+<hr />
+
+1). Run storybook `npm run storybook` and go to `http://localhost:6006`
+
+2). Create a new component in the components folder. The component is going to be a simple collection of user input fields
 
 ```ts
 // components/OnOff.tsx
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-interface OnOffProps {
-  
+export interface OnOffProps {
+    disabled?: boolean;
 }
 
-export const OnOff = (props: OnOffProps) => {
+export const OnOff = ({ disabled = false }: OnOffProps) => {
   const { register } = useFormContext();
   
   return (
@@ -154,6 +158,7 @@ export const OnOff = (props: OnOffProps) => {
          <input
              type="checkbox"
              disabled={disabled}
+             {/* register component with react hook form */}
              {...register('onOff')}
           />
           <p>
@@ -164,6 +169,19 @@ export const OnOff = (props: OnOffProps) => {
 }
 ```
 
+3). Create a new story along side the component
+
+```
+// components/OnOff.stories.tsx
+
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+
+import { OnOff, OnOffProps } from './BackendOnly';
+
+
+
+```
 
 Developing
 

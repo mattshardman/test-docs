@@ -1,33 +1,36 @@
 # Proposed Workflow for TDD on console
 
-## Aim
+## Purpose
 
-### What it is
+Outline the ['golden path'](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/) for creating a new feature or component in the console ui
+Provide step by step instuctions for how to create and test a new feature or component
+Describe in detail how we approach building UIs at Hasura using Test driven development
+what is a feature...
+what is a component...
 
-Set out how we approach building UIs at Hasura using TDD.
-How we approach testing in a way that allows us to release things regularly that are well tested but don't have tests that are difficult to maintain and slow us down.
-Act as a guide for the workflow someone should follow when adding/upgrading a UI component/feature.
+Shouldn't be considered 'set in stone', comments cristisms etc welcome..
 
-### What it's not
+## Audience
 
-A "this is the correct way to do things".
-Set in stone: feel free to disagree, update, improve etc..
+- Someone creating a new component or feature for the first time
+- Also should be useful point of reference for everyone else
+- Therefore, contains step by step and could seem overly exhuastive, but designed to be through in included every step of the development process
 
-## Overall Philosophy
+## Overall Philosophy 
 
-* Component Driven Design - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using msw
-* Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
-* Only use testing library to verify difficult to reach states - don't overuse
-* Chromatic to automate visual testing process (pick up regressions etc).
-* Limit user-flow testing (cypress) sparingly and only to test key user flows
+* **Component Driven Design** - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using `msw`
+* **Stories are tests** - Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
+* **Use unit tests sparingly** Only use testing library to verify difficult to reach states - don't overuse
+* **Automate visual testing workflow** - Chromatic to automate visual testing process (pick up regressions etc).
+* **Limit user-flow testing** - Limit user-flow testing (cypress) sparingly and only to test key user flows
 
 ## Workflow
 
 The workflow we use will lean on three aspects (elaborated below):
 
-1. Code gen: Using code gen tools to create a consistent pattern of folders, files, and tests
-2. Component drvien design: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
-3. Collaboration: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
+1. **Code gen**: Using code gen tools to create a consistent pattern of folders, files, and tests
+2. **Component drvien design**: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
+3. **Collaboration**: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
 
 ### Creating new components/features
 
@@ -86,13 +89,16 @@ end
 **3. Collaboration**
 
 * Use chromatic to automate visual testing for regressions and changes
-* Multiple developers check changes, use deployed storybook for single source of truth
+* Multiple developers check changes, and approve or reject depending on output
 
-### Full workflow example
+### Step by step
 
-##### Creating a component 
+Step by step guide aimed at developers creating a feature for the first time, 'golden path' for creating new features with Test Driven Development.
+The guide is to create a Form feature, this also includes use of some of the librarys and components we use such as 'react-hook-form'
 
-* Creating a new a feature which is a card component
+##### Create a feature
+
+* Creating a new a feature: a form component
 
 * Start by using code-gen 
 
@@ -100,9 +106,64 @@ end
 example of code gen feature
 ```
 
-##### Developing
+##### Developing a new feature
 
-* Using a component driven approach so start with smallest building block
+* Once the code generation has completed there will be a new feature with the following file layout:
+
+```
+src/features/ExampleForm
+|
++-- api         # exported API request declarations and api hooks related to a specific feature
+|
++-- assets      # assets folder can contain all the static files for a specific feature
+|
++-- components  # components scoped to a specific feature
+|
+|        MyComponent.tsx (no index.ts in here)
+|
++-- hooks       # hooks scoped to a specific feature
+|
++-- stores      # state stores for a specific feature
+|
++-- types       # typescript types for ta specific feature domain
+|
++-- utils       # utility functions for a specific feature
+|
++-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
+```
+
+* We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
+* All sections will be mocked in Storybook including api requests
+
+1. Create a new component in the components folder. The component is going to be a simple collapsible component where we can select if something is on or off
+
+```ts
+// components/OnOff.tsx
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+
+interface OnOffProps {
+  
+}
+
+export const OnOff = (props: OnOffProps) => {
+  const { register } = useFormContext();
+  
+  return (
+     <label>
+         <input
+             type="checkbox"
+             disabled={disabled}
+             {...register('onOff')}
+          />
+          <p>
+            Turn on or off
+          </p>
+     </label>
+  );
+}
+```
+
 
 Developing
 
@@ -114,7 +175,7 @@ Developing
 
 -- if the component has some difficult to reach states that might be difficult to snapshot maybe create some testing library tests 
 
-Collaboration and testing
+#### Collaboration and testing
 
 -- deploy storybook
 -- run chromatic
@@ -124,9 +185,16 @@ Collaboration and testing
 
 This document is based mainly on the following articles/documents:
 
+##### Creating and testing UIs
 * [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
 * [The delightful storybook  - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
 * [Component driven](https://www.componentdriven.org/)
 * [UI testing playbook](https://storybook.js.org/blog/ui-testing-playbook/)
 * [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
 * [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)
+
+##### Living documents
+* [Rethinking docs](https://kathykorevec.medium.com/building-a-better-place-for-docs-197f92765409)
+
+##### Golden Paths
+* [Spotify: the golden path](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/)

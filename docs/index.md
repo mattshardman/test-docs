@@ -8,7 +8,7 @@ Describe in detail how we approach building UIs at Hasura using Test driven deve
 what is a feature...
 what is a component...
 
-Shouldn't be considered 'set in stone', comments cristisms etc welcome..
+Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 
 ## Audience
 
@@ -23,6 +23,8 @@ Shouldn't be considered 'set in stone', comments cristisms etc welcome..
 * **Use unit tests sparingly** Only use testing library to verify difficult to reach states - don't overuse
 * **Automate visual testing workflow** - Chromatic to automate visual testing process (pick up regressions etc).
 * **Limit user-flow testing** - Limit user-flow testing (cypress) sparingly and only to test key user flows
+
+<hr />
 
 ## Workflow
 
@@ -91,6 +93,8 @@ end
 * Use chromatic to automate visual testing for regressions and changes
 * Multiple developers check changes, and approve or reject depending on output
 
+<hr />
+
 ### Step by step
 
 Step by step guide aimed at developers creating a feature for the first time, 'golden path' for creating new features with Test Driven Development.
@@ -105,8 +109,6 @@ The guide is to create a Form feature, this also includes use of some of the lib
 ```bash
 example of code gen feature
 ```
-
-##### Developing a new feature
 
 * Once the code generation has completed there will be a new feature with the following file layout:
 
@@ -135,7 +137,7 @@ src/features/ExampleForm
 * We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
 * All sections will be mocked in Storybook including api requests
 
-<hr />
+##### Developing a new feature
 
 1). Run storybook `npm run storybook` and go to `http://localhost:6006`
 

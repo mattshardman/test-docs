@@ -3,18 +3,18 @@
 ## Purpose
 
 Outline the ['golden path'](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/) for creating a new feature or component in the console ui
-Provide step by step instuctions for how to create and test a new feature or component
+Provide step by step instructions for how to create and test a new feature or component
 Describe in detail how we approach building UIs at Hasura using Test driven development
 what is a feature...
 what is a component...
 
-Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
+Shouldn't be considered 'set in stone', comments, criticism etc. are welcome.
 
 ## Audience
 
 - Someone creating a new component or feature for the first time
 - Also should be useful point of reference for everyone else
-- Therefore, contains step by step and could seem overly exhuastive, but designed to be through in included every step of the development process
+- Therefore, contains step by step and could seem overly exhaustive, but designed to be thorough in included every step of the development process
 
 ## Overall Philosophy
 
@@ -87,9 +87,9 @@ end
 ```
 
 - All stories should be checked against accessibility guidelines using the accessibility add on tab in storybooks
-- We should only add tests using `react-testing-library` where components are particularly complicated inorder to get the component into a hard to reach state.
-- As the components increase in size/complexity they should be composed from smalled components that have already been tested and any data they need mocked using `msw` (mock service worker)
-- Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
+- We should only add tests using `react-testing-library` where components are particularly complicated in order to get the component into a hard to reach state.
+- As the components increase in size/complexity they should be composed from smaller components that have already been tested and any data they need mocked using `msw` (mock service worker)
+- Larger components/pages should handle there own data flow using only the minimum number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
 - Userflow testing with Cypress should be limited to key user paths and be used sparingly.
 
 3. **Collaboration**
@@ -102,7 +102,7 @@ end
 ## Step by step
 
 Step by step guide aimed at developers creating a feature for the first time, 'golden path' for creating new features with Test Driven Development.
-The guide is to create a Form feature, this also includes use of some of the librarys and components we use such as 'react-hook-form'
+The guide is to create a Form feature, this also includes use of some of the libraries and components we use such as 'react-hook-form'
 
 ### Create a feature
 

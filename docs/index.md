@@ -18,13 +18,13 @@ Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 
 ## Overall Philosophy
 
-- --Component Driven Design-- - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using `msw`
-- --Stories are tests-- - Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
-- --Use unit tests sparingly-- Only use testing library to verify difficult to reach states - don't overuse
-- --Automate visual testing workflow-- - Chromatic to automate visual testing process (pick up regressions etc).
-- --Limit user-flow testing-- - Limit user-flow testing (cypress) sparingly and only to test key user flows
+- **Component Driven Design** - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using `msw`
+- **Stories are tests** - Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
+- **Use unit tests sparingly** Only use testing library to verify difficult to reach states - don't overuse
+- **Automate visual testing workflow** - Chromatic to automate visual testing process (pick up regressions etc).
+- **Limit user-flow testing** - Limit user-flow testing (cypress) sparingly and only to test key user flows
 
-// TODO screenshot of testing benefits table
+![testing grid](./testing-grid.png)
 
 <hr />
 
@@ -32,21 +32,21 @@ Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 
 The workflow we use will lean on three aspects (elaborated below):
 
-1. --Code gen--: Using code gen tools to create a consistent pattern of folders, files, and tests
-2. --Component drvien design--: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
-3. --Collaboration--: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
+1. **Code generation**: Using code generation tools to create a consistent pattern of folders, files, and tests
+2. **Component driven design**: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
+3. **Collaboration**: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
 
 ### Creating new components/features
 
---1. Code gen--
+1. **Code generation**
 
-- When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
+- When creating new components we should use the repositories in build code generation tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
 
 // TODO example to follow when tool is merged
 
 - When the tool is run a file structure similar to this will be generated:
 
-```
+```md
 src/features/awesome-feature
 |
 +-- api         # exported API request declarations and api hooks related to a specific feature
@@ -68,7 +68,7 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
---2. Build components in storybooks--
+2. **Build components in storybooks**
 
 - Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
 - We should follow a "Component Driven Design" approach. This generally means 2 things:
@@ -77,7 +77,7 @@ src/features/awesome-feature
 
 From Storybook's visual testing handbook:
 
-```
+```md
 test
   setup
   execute 👈 Storybook renders stories
@@ -92,19 +92,19 @@ end
 - Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
 - Userflow testing with Cypress should be limited to key user paths and be used sparingly.
 
---3. Collaboration--
+3. **Collaboration**
 
 - Use chromatic to automate visual testing for regressions and changes
 - Multiple developers check changes, and approve or reject depending on output
 
 <hr />
 
-### Step by step
+## Step by step
 
 Step by step guide aimed at developers creating a feature for the first time, 'golden path' for creating new features with Test Driven Development.
 The guide is to create a Form feature, this also includes use of some of the librarys and components we use such as 'react-hook-form'
 
-##### Create a feature
+### Create a feature
 
 - Creating a new a feature: a simple form component that gathers some information about a user
 
@@ -141,7 +141,7 @@ src/features/ExampleForm
 - We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
 - All sections will be mocked in Storybook including api requests
 
-##### Developing a new feature
+### Developing a new feature
 
 - Run storybook `npm run storybook` and go to `http://localhost:6006` in the browser
 
@@ -224,12 +224,12 @@ export default {
 export const Primary: Story = (args) => <UserInfo {...args} />;
 ```
 
-The component should now load in storybooks:
+The component should now load in storybook:
 
-// TODO image
+![image info](./user-info1.png)
 
 ```md
-This is the basic method for Test Driven Development with storybooks: update the component, visually check in Storybooks, iterate
+This is the basic method for Test Driven Development with storybooks: update the component, visually check in storybook, iterate
 ```
 
 - Add some more fields to the `UserInfo`
@@ -278,7 +278,7 @@ export const UserInfo = () => {
 
 - Check the rendered output in storybook
 
-// TODO image
+![image info](./user-info2.png)
 
 - Now that we have one component correctly rendering let's create another component using the same workflow as before:
 
@@ -420,7 +420,7 @@ This time we don't need to use a decorator as the Form is being implemented in t
 
 - Check the component in storybook to ensure it is rendering properly:
 
-// TODO add image
+![image info](./example-form.png)
 
 - Check the form output in the console it should look something like this:
 
@@ -626,18 +626,18 @@ Error.parameters = {
 ...
 ```
 
-#### Collaboration and testing
+### Collaboration and testing
 
 - Once we are happy with our new feature we can push our changes and create a pull request
 - Chromatic is set to run on each push and will capture screenshots of any stories we have created
 - On future pull requests chromatic will compare screenshots to there accepted baselines and notify reviewers of any visual changes which they are then able to accept or reject
 - Once all changes have been confirmed and a code review has been completed our new feature can be merged
 
-### Refs
+## Refs
 
 This document is based mainly on the following articles/documents:
 
-#### Creating and testing UIs
+### Creating and testing UIs
 
 - [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
 - [The delightful storybook - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
@@ -646,10 +646,10 @@ This document is based mainly on the following articles/documents:
 - [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
 - [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)
 
-#### Living documents
+### Living documents
 
 - [Rethinking docs](https://kathykorevec.medium.com/building-a-better-place-for-docs-197f92765409)
 
-#### Golden Paths
+### Golden Paths
 
 - [Spotify: the golden path](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/)

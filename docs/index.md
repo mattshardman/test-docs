@@ -24,6 +24,8 @@ Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 * **Automate visual testing workflow** - Chromatic to automate visual testing process (pick up regressions etc).
 * **Limit user-flow testing** - Limit user-flow testing (cypress) sparingly and only to test key user flows
 
+// TODO screenshot of testing benefits table
+
 <hr />
 
 ## Workflow
@@ -68,7 +70,7 @@ src/features/awesome-feature
 
 **2. Build components in storybooks**
 
-* Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
+* Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks. 
 * We should follow a "Component Driven Design" approach. This generally means 2 things:
   1. Start with the smallest components and build up to larger components and pages composed of the smaller components
   2. Stories are tests! When creating new components we should be following a Test Driven Development pattern, this doesn't neccessarily mean writing tests with `jest`/`react-testing-library` for every component. By following a iterative process and checking story output as we go we are naturally following Test Driven Development - our visual testing is the verify step.
@@ -83,6 +85,7 @@ test
 end
 ```
 
+* All stories should be checked against accessibility guidelines using the accessibility add on tab in storybooks
 * We should only add tests using `react-testing-library` where components are particularly complicated inorder to get the component into a hard to reach state.
 * As the components increase in size/complexity they should be composed from smalled components that have already been tested and any data they need mocked using `msw` (mock service worker)
 * Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
@@ -102,7 +105,7 @@ The guide is to create a Form feature, this also includes use of some of the lib
 
 ##### Create a feature
 
-* Creating a new a feature: a form component
+* Creating a new a feature: a simple form component that gathers some information about a user
 
 * Start by using code-gen 
 
@@ -139,61 +142,210 @@ src/features/ExampleForm
 
 ##### Developing a new feature
 
-1). Run storybook `npm run storybook` and go to `http://localhost:6006`
+* Run storybook `npm run storybook` and go to `http://localhost:6006` in the browser
 
-2). Create a new component in the components folder. The component is going to be a simple collection of user input fields
+* Create a new component `UserInfo` in the components folder. The component is going to be a simple collection of user input fields.
+
+We will be using `react-hook-form` so the component needs to be registered
 
 ```ts
-// components/OnOff.tsx
+// components/UserInfo.tsx
+
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-export interface OnOffProps {
-    disabled?: boolean;
-}
+import { InputField } from '@/new-components/Form';
 
-export const OnOff = ({ disabled = false }: OnOffProps) => {
+export const UserInfo = () => {
   const { register } = useFormContext();
-  
+
   return (
-     <label>
-         <input
-             type="checkbox"
-             disabled={disabled}
-             {/* register component with react hook form */}
-             {...register('onOff')}
-          />
-          <p>
-            Turn on or off
-          </p>
-     </label>
+    <div>
+      <InputField
+        label="Name"
+        placeholder="Your name here"
+        {...register('name')}
+      />
+    </div>
   );
-}
+};
 ```
 
-3). Create a new story along side the component
+* Create a new story along side the component
 
-```
-// components/OnOff.stories.tsx
+```ts
+// components/UserInfo.stories.tsx
 
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
+import { UserInfo } from './UserInfo';
 
-import { OnOff, OnOffProps } from './BackendOnly';
+export default {
+  // the title determines how the component will appear in the storybook menu
+  title: 'Example/User Info',
+  component: UserInfo,
+} as Meta;
 
-
-
+// anything exported will be displayed in storybooks
+export const Primary: Story = args => <UserInfo {...args} />;
 ```
 
-Developing
+* Visit `http://localhost:6006` and go to `Example/User Info` from the menu
 
--- create a component
--- create a story
--- build simplest implementation
--- check in storybooks including accessibility
--- iterate and create additional states
+You will see the message `Cannot read properties of null (reading 'register')`
 
--- if the component has some difficult to reach states that might be difficult to snapshot maybe create some testing library tests 
+This is because the `InputField` component must be implemented within a `Form` component, we can fix this is storybook by adding a decorator
+
+Let's fix this:
+
+```ts
+// components/UserInfo.tsx
+
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import { z } from 'zod';
+import { Form } from '@/new-components/Form';
+
+import { UserInfo } from './UserInfo';
+
+export default {
+  title: 'Example/User Info',
+  component: UserInfo,
+  decorators: [(S: React.FC) => (
+    <Form
+      schema={z.any()}
+      onSubmit={() => {}}
+    >
+      {() => <S />}
+    </Form>
+  )],
+} as Meta;
+
+export const Primary: Story = args => <UserInfo {...args} />;
+```
+
+The component should now load in storybooks:
+
+// TODO image
+
+**This is the basic method for Test Driven Development with storybooks: update the component, visually check in Storybooks, iterate**
+
+* Add some more fields to the `UserInfo`
+
+```ts
+// components/UserInfo.tsx
+
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import { InputField } from '@/new-components/Form';
+
+export const UserInfo = () => {
+  const { register } = useFormContext();
+
+  return (
+    <div className="grid gap-2">
+      <InputField
+        label="Name"
+        placeholder="Your name here"
+        {...register('name')}
+      />
+
+      <InputField
+        label="User Name"
+        placeholder="Your username here"
+        {...register('username')}
+      />
+
+      <InputField
+        label="Email"
+        placeholder="you@website.com"
+        type="email"
+        {...register('email')}
+      />
+
+      <InputField
+        label="Phone Number"
+        placeholder="Your phone number"
+        {...register('phoneNumber')}
+      />
+    </div>
+  );
+};
+```
+
+* Check the rendered output in storybook
+
+// TODO image
+
+* Now that we have one component correctly rendering let's create another component using the same workflow as before:
+
+```ts
+// components/CompanyInfo.tsx
+
+import React from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import { InputField } from '@/new-components/Form';
+
+export const CompanyInfo = () => {
+  const { register } = useFormContext();
+
+  return (
+    <div className="grid gap-2">
+      <InputField
+        label="Company name"
+        placeholder="Your company name here"
+        {...register('companyName')}
+      />
+
+      <InputField
+        label="Company Website"
+        placeholder="www.yourcompanywebsite.com"
+        {...register('website')}
+      />
+
+      <InputField
+        label="Sector"
+        placeholder="Your company sector e.g. software"
+        {...register('secotr')}
+      />
+    </div>
+  );
+};
+```
+
+```ts
+// components/CompanyInfo.stories.tsx
+
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import { z } from 'zod';
+import { Form } from '@/new-components/Form';
+
+import { CompanyInfo } from './CompanyInfo';
+
+export default {
+  title: 'Example/Company Info',
+  component: CompanyInfo,
+  decorators: [(S: React.FC) => (
+    <Form
+      schema={z.any()}
+      onSubmit={() => {}}
+    >
+      {() => <S />}
+    </Form>
+  )],
+} as Meta;
+
+export const Primary: Story = args => <CompanyInfo {...args} />;
+```
+
+```Now that we have 2 smaller components correctly rendering in storybooks, we can start to move up the Component hirachy and compose these 2 components into a larger `form` component. Again this will be rendered and tested in storybooks.
+
+The component will be responsible for its entire data lifecycle and we will use `msw` to mock this in storybook.```
+
+* Create a `FormComponent` and 
 
 #### Collaboration and testing
 

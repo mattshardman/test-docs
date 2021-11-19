@@ -16,13 +16,13 @@ Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 - Also should be useful point of reference for everyone else
 - Therefore, contains step by step and could seem overly exhuastive, but designed to be through in included every step of the development process
 
-## Overall Philosophy 
+## Overall Philosophy
 
-* **Component Driven Design** - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using `msw`
-* **Stories are tests** - Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
-* **Use unit tests sparingly** Only use testing library to verify difficult to reach states - don't overuse
-* **Automate visual testing workflow** - Chromatic to automate visual testing process (pick up regressions etc).
-* **Limit user-flow testing** - Limit user-flow testing (cypress) sparingly and only to test key user flows
+- --Component Driven Design-- - build up stories from small components into larger composed components and pages, each with simulated states and data mocked using `msw`
+- --Stories are tests-- - Use stories as main tests (isolate components and write stories to simulate as many states as feasible)
+- --Use unit tests sparingly-- Only use testing library to verify difficult to reach states - don't overuse
+- --Automate visual testing workflow-- - Chromatic to automate visual testing process (pick up regressions etc).
+- --Limit user-flow testing-- - Limit user-flow testing (cypress) sparingly and only to test key user flows
 
 // TODO screenshot of testing benefits table
 
@@ -32,19 +32,19 @@ Shouldn't be considered 'set in stone', comments cristisms etc. are welcome.
 
 The workflow we use will lean on three aspects (elaborated below):
 
-1. **Code gen**: Using code gen tools to create a consistent pattern of folders, files, and tests
-2. **Component drvien design**: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
-3. **Collaboration**: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
+1. --Code gen--: Using code gen tools to create a consistent pattern of folders, files, and tests
+2. --Component drvien design--: Building using a "component driven approach", starting with smaller components and building up to larger components and pages
+3. --Collaboration--: Following a visual testing strategy that uses chromatic to automatically catch changes and capture snapshots and then reviewing these as a team online.
 
 ### Creating new components/features
 
-**1. Code gen**
+--1. Code gen--
 
-* When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
+- When creating new components we should use the repositories in build codegen tools, this scaffolds the relevant files and folders for the new component or feature complete with stories and tests.
 
 // TODO example to follow when tool is merged
 
-* When the tool is run a file structure similar to this will be generated:
+- When the tool is run a file structure similar to this will be generated:
 
 ```
 src/features/awesome-feature
@@ -68,14 +68,15 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-**2. Build components in storybooks**
+--2. Build components in storybooks--
 
-* Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks. 
-* We should follow a "Component Driven Design" approach. This generally means 2 things:
+- Once the new files and been scaffolded using code gen tools the new feature should be build out and tested in storybooks.
+- We should follow a "Component Driven Design" approach. This generally means 2 things:
   1. Start with the smallest components and build up to larger components and pages composed of the smaller components
   2. Stories are tests! When creating new components we should be following a Test Driven Development pattern, this doesn't neccessarily mean writing tests with `jest`/`react-testing-library` for every component. By following a iterative process and checking story output as we go we are naturally following Test Driven Development - our visual testing is the verify step.
 
 From Storybook's visual testing handbook:
+
 ```
 test
   setup
@@ -85,16 +86,16 @@ test
 end
 ```
 
-* All stories should be checked against accessibility guidelines using the accessibility add on tab in storybooks
-* We should only add tests using `react-testing-library` where components are particularly complicated inorder to get the component into a hard to reach state.
-* As the components increase in size/complexity they should be composed from smalled components that have already been tested and any data they need mocked using `msw` (mock service worker)
-* Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
-* Userflow testing with Cypress should be limited to key user paths and be used sparingly.
+- All stories should be checked against accessibility guidelines using the accessibility add on tab in storybooks
+- We should only add tests using `react-testing-library` where components are particularly complicated inorder to get the component into a hard to reach state.
+- As the components increase in size/complexity they should be composed from smalled components that have already been tested and any data they need mocked using `msw` (mock service worker)
+- Larger components/pages should handle there own data flow using only the minimium number of props required to fetch that data with data fetching hooks that use `react-query` under the hook. (Again the data lifecycle can be mocked using `msw`).
+- Userflow testing with Cypress should be limited to key user paths and be used sparingly.
 
-**3. Collaboration**
+--3. Collaboration--
 
-* Use chromatic to automate visual testing for regressions and changes
-* Multiple developers check changes, and approve or reject depending on output
+- Use chromatic to automate visual testing for regressions and changes
+- Multiple developers check changes, and approve or reject depending on output
 
 <hr />
 
@@ -105,15 +106,15 @@ The guide is to create a Form feature, this also includes use of some of the lib
 
 ##### Create a feature
 
-* Creating a new a feature: a simple form component that gathers some information about a user
+- Creating a new a feature: a simple form component that gathers some information about a user
 
-* Start by using code-gen 
+- Start by using code-gen
 
 ```bash
 example of code gen feature
 ```
 
-* Once the code generation has completed there will be a new feature with the following file layout:
+- Once the code generation has completed there will be a new feature with the following file layout:
 
 ```
 src/features/ExampleForm
@@ -137,24 +138,24 @@ src/features/ExampleForm
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-* We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
-* All sections will be mocked in Storybook including api requests
+- We are using Component Driven Design so will create small components and then build up to more complex components and the page as a whole.
+- All sections will be mocked in Storybook including api requests
 
 ##### Developing a new feature
 
-* Run storybook `npm run storybook` and go to `http://localhost:6006` in the browser
+- Run storybook `npm run storybook` and go to `http://localhost:6006` in the browser
 
-* Create a new component `UserInfo` in the components folder. The component is going to be a simple collection of user input fields.
+- Create a new component `UserInfo` in the components folder. The component is going to be a simple collection of user input fields.
 
 We will be using `react-hook-form` so the component needs to be registered
 
 ```ts
 // components/UserInfo.tsx
 
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { InputField } from '@/new-components/Form';
+import { InputField } from "@/new-components/Form";
 
 export const UserInfo = () => {
   const { register } = useFormContext();
@@ -164,33 +165,33 @@ export const UserInfo = () => {
       <InputField
         label="Name"
         placeholder="Your name here"
-        {...register('name')}
+        {...register("name")}
       />
     </div>
   );
 };
 ```
 
-* Create a new story along side the component
+- Create a new story along side the component
 
 ```ts
 // components/UserInfo.stories.tsx
 
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { UserInfo } from './UserInfo';
+import React from "react";
+import { Story, Meta } from "@storybook/react";
+import { UserInfo } from "./UserInfo";
 
 export default {
   // the title determines how the component will appear in the storybook menu
-  title: 'Example/User Info',
+  title: "Example/User Info",
   component: UserInfo,
 } as Meta;
 
 // anything exported will be displayed in storybooks
-export const Primary: Story = args => <UserInfo {...args} />;
+export const Primary: Story = (args) => <UserInfo {...args} />;
 ```
 
-* Visit `http://localhost:6006` and go to `Example/User Info` from the menu
+- Visit `http://localhost:6006` and go to `Example/User Info` from the menu
 
 You will see the message `Cannot read properties of null (reading 'register')`
 
@@ -201,44 +202,45 @@ Let's fix this:
 ```ts
 // components/UserInfo.tsx
 
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { z } from 'zod';
-import { Form } from '@/new-components/Form';
+import React from "react";
+import { Story, Meta } from "@storybook/react";
+import { z } from "zod";
+import { Form } from "@/new-components/Form";
 
-import { UserInfo } from './UserInfo';
+import { UserInfo } from "./UserInfo";
 
 export default {
-  title: 'Example/User Info',
+  title: "Example/User Info",
   component: UserInfo,
-  decorators: [(S: React.FC) => (
-    <Form
-      schema={z.any()}
-      onSubmit={() => {}}
-    >
-      {() => <S />}
-    </Form>
-  )],
+  decorators: [
+    (S: React.FC) => (
+      <Form schema={z.any()} onSubmit={() => {}}>
+        {() => <S />}
+      </Form>
+    ),
+  ],
 } as Meta;
 
-export const Primary: Story = args => <UserInfo {...args} />;
+export const Primary: Story = (args) => <UserInfo {...args} />;
 ```
 
 The component should now load in storybooks:
 
 // TODO image
 
-**This is the basic method for Test Driven Development with storybooks: update the component, visually check in Storybooks, iterate**
+```md
+This is the basic method for Test Driven Development with storybooks: update the component, visually check in Storybooks, iterate
+```
 
-* Add some more fields to the `UserInfo`
+- Add some more fields to the `UserInfo`
 
 ```ts
 // components/UserInfo.tsx
 
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { InputField } from '@/new-components/Form';
+import { InputField } from "@/new-components/Form";
 
 export const UserInfo = () => {
   const { register } = useFormContext();
@@ -248,45 +250,45 @@ export const UserInfo = () => {
       <InputField
         label="Name"
         placeholder="Your name here"
-        {...register('name')}
+        {...register("name")}
       />
 
       <InputField
         label="User Name"
         placeholder="Your username here"
-        {...register('username')}
+        {...register("username")}
       />
 
       <InputField
         label="Email"
         placeholder="you@website.com"
         type="email"
-        {...register('email')}
+        {...register("email")}
       />
 
       <InputField
         label="Phone Number"
         placeholder="Your phone number"
-        {...register('phoneNumber')}
+        {...register("phoneNumber")}
       />
     </div>
   );
 };
 ```
 
-* Check the rendered output in storybook
+- Check the rendered output in storybook
 
 // TODO image
 
-* Now that we have one component correctly rendering let's create another component using the same workflow as before:
+- Now that we have one component correctly rendering let's create another component using the same workflow as before:
 
 ```ts
 // components/CompanyInfo.tsx
 
-import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { InputField } from '@/new-components/Form';
+import { InputField } from "@/new-components/Form";
 
 export const CompanyInfo = () => {
   const { register } = useFormContext();
@@ -296,19 +298,19 @@ export const CompanyInfo = () => {
       <InputField
         label="Company name"
         placeholder="Your company name here"
-        {...register('companyName')}
+        {...register("companyName")}
       />
 
       <InputField
         label="Company Website"
         placeholder="www.yourcompanywebsite.com"
-        {...register('website')}
+        {...register("website")}
       />
 
       <InputField
         label="Sector"
         placeholder="Your company sector e.g. software"
-        {...register('secotr')}
+        {...register("secotr")}
       />
     </div>
   );
@@ -318,55 +320,336 @@ export const CompanyInfo = () => {
 ```ts
 // components/CompanyInfo.stories.tsx
 
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { z } from 'zod';
-import { Form } from '@/new-components/Form';
+import React from "react";
+import { Story, Meta } from "@storybook/react";
+import { z } from "zod";
+import { Form } from "@/new-components/Form";
 
-import { CompanyInfo } from './CompanyInfo';
+import { CompanyInfo } from "./CompanyInfo";
 
 export default {
-  title: 'Example/Company Info',
+  title: "Example/Company Info",
   component: CompanyInfo,
-  decorators: [(S: React.FC) => (
-    <Form
-      schema={z.any()}
-      onSubmit={() => {}}
-    >
-      {() => <S />}
-    </Form>
-  )],
+  decorators: [
+    (S: React.FC) => (
+      <Form schema={z.any()} onSubmit={() => {}}>
+        {() => <S />}
+      </Form>
+    ),
+  ],
 } as Meta;
 
-export const Primary: Story = args => <CompanyInfo {...args} />;
+export const Primary: Story = (args) => <CompanyInfo {...args} />;
 ```
 
-```Now that we have 2 smaller components correctly rendering in storybooks, we can start to move up the Component hirachy and compose these 2 components into a larger `form` component. Again this will be rendered and tested in storybooks.
+```md
+Now that we have 2 smaller components correctly rendering in storybooks, we can start to move up the Component hirachy and compose these 2 components into a larger `form` component. Again this will be rendered and tested in storybooks.
 
-The component will be responsible for its entire data lifecycle and we will use `msw` to mock this in storybook.```
+The component will be responsible for its entire data lifecycle and we will use `msw` to mock this in storybook.
+```
 
-* Create a `FormComponent` and 
+- Create a `Form` component and compose the two smaller components within it
+
+```ts
+// components/ExampleForm.tsx
+
+import React from "react";
+import { z } from "zod";
+
+import { Form } from "@/new-components/Form";
+import { CompanyInfo } from "./CompanyInfo";
+import { UserInfo } from "./UserInfo";
+
+// we use zod to allow us to define the schema for the form output
+const schema = z.object({
+  name: z.string(),
+  username: z.string(),
+  email: z.string().email(),
+  phoneNumber: z.string(),
+  companyName: z.string(),
+  website: z.string(),
+  sector: z.string(),
+});
+
+// z.infer allows the schema to converted to a TS type
+type FormOutput = z.infer<typeof schema>;
+
+export const ExampleForm = () => {
+  const handleSubmit = (formOutput: FormOutput) => {
+    // we'll log the form output to ensure it's correct
+    console.log(formOutput);
+  };
+
+  return (
+    <Form schema={schema} onSubmit={handleSubmit}>
+      {() => (
+        <>
+          <p className="font-bold">User Info</p>
+          <UserInfo />
+          <p className="font-bold">Company Info</p>
+          <CompanyInfo />
+          <Button type="submit" mode="primary">
+            Submit
+          </Button>
+        </>
+      )}
+    </Form>
+  );
+};
+```
+
+```ts
+// components/ExampleForm.stories.tsx
+
+import React from "react";
+import { Story, Meta } from "@storybook/react";
+
+import { ExampleForm } from "./ExampleForm";
+
+export default {
+  title: "Example/Example Form",
+  component: ExampleForm,
+} as Meta;
+
+export const Primary: Story = (args) => <ExampleForm {...args} />;
+```
+
+```md
+This time we don't need to use a decorator as the Form is being implemented in the component
+```
+
+- Check the component in storybook to ensure it is rendering properly:
+
+// TODO add image
+
+- Check the form output in the console it should look something like this:
+
+```js
+{
+  companyName: "Comp",
+  email: "me@g.com",
+  name: "Me",
+  phoneNumber: "01234587887",
+  sector: "software",
+  username: "me",
+  website: "www.comp.com"
+}
+```
+
+- We now have a larger component composed of base components correctly rendering in storybook, the next stage is to mock the dataflow. In the console we use `react-query` and a custom Api function imported from `@/hooks/apiUtils`. Let's set this up:
+
+```ts
+// components/ExampleForm.tsx
+
+import React from "react";
+// import useMutation from react query
+import { useMutation } from "react-query";
+import { z } from "zod";
+
+// import Api from our custom hooks
+import { Api } from "@/hooks/apiUtils";
+
+import { Button } from "@/new-components/Button";
+import { Form } from "@/new-components/Form";
+import { CompanyInfo } from "./CompanyInfo";
+import { UserInfo } from "./UserInfo";
+
+const schema = z.object({
+  name: z.string(),
+  username: z.string(),
+  email: z.string().email(),
+  phoneNumber: z.string(),
+  companyName: z.string(),
+  website: z.string(),
+  sector: z.string(),
+});
+
+type FormOutput = z.infer<typeof schema>;
+
+interface ApiResponse {
+  status: "success" | "error";
+  body: FormOutput;
+}
+
+export const ExampleForm = () => {
+  // on submit the form will try to submit to the relative path api/user-info
+  const { mutateAsync } = useMutation(
+    // we can specify the input and response types for the api
+    (body: FormOutput) =>
+      Api.post<ApiResponse>(
+        { headers: {}, body, url: "api/user-info" },
+        (result) => result
+      ),
+    {
+      mutationKey: "userInfo",
+    }
+  );
+
+  const handleSubmit = (formOutput: FormOutput) => {
+    mutateAsync(formOutput);
+  };
+
+  return (
+    <Form schema={schema} onSubmit={handleSubmit}>
+      {() => (
+        <>
+          <p className="font-bold">User Info</p>
+          <UserInfo />
+          <p className="font-bold">Company Info</p>
+          <CompanyInfo />
+          <Button type="submit" mode="primary">
+            Submit
+          </Button>
+        </>
+      )}
+    </Form>
+  );
+};
+```
+
+- If we now try to run this in storybooks we get the following error: `No QueryClient set, use QueryClientProvider to set one`. We need to add another decorator to get `react-query` to work
+
+```ts
+import React from "react";
+import { Story, Meta } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { ExampleForm } from "./ExampleForm";
+
+const queryClient = new QueryClient();
+
+export default {
+  title: "Example/Example Form",
+  component: ExampleForm,
+  decorators: [
+    (S: React.FC) => (
+      // wrap stories in QueryClientProvider
+      <QueryClientProvider client={queryClient}>
+        <S />
+      </QueryClientProvider>
+    ),
+  ],
+} as Meta;
+
+export const Primary: Story = (args) => <ExampleForm {...args} />;
+```
+
+- The story should now load correctly, however we now get the following error in the console when we try to submit the form `POST http://localhost:6006/api/user-info 404 (Not Found)`. We will now implement `mock service worker` to catch and respond to the api request:
+
+```ts
+// components/ExampleForm.tsx
+
+import React from "react";
+// import the rest client from msw
+import { rest } from "msw";
+import { Story, Meta } from "@storybook/react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { ExampleForm } from "./ExampleForm";
+
+const queryClient = new QueryClient();
+
+export default {
+  title: "Example/Example Form",
+  component: ExampleForm,
+  decorators: [
+    (S: React.FC) => (
+      <QueryClientProvider client={queryClient}>
+        <S />
+      </QueryClientProvider>
+    ),
+  ],
+} as Meta;
+
+const url = "http://localhost:6006";
+
+export const Primary: Story = (args) => <ExampleForm {...args} />;
+// we can mock responses from different endpoints by providing an array of
+// responses under the msw key
+Primary.parameters = {
+  msw: [
+    rest.post(`${url}/api/user-info`, (req, res, ctx) => {
+      return res(ctx.json({ status: "success", body: req.body }));
+    }),
+  ],
+};
+```
+
+- We can now see that when we submit the form and check the console msw responds with a `200` status: `[MSW] 16:24:05 POST /api/user-info (200)`.
+  Let's now add some logic to the form to react to the response:
+
+```ts
+// components/ExampleForm.tsx
+...
+
+if (data?.status === "success") {
+  return <div>Form successfully submitted for {data.body.name}</div>;
+}
+
+...
+```
+
+- And check that it renders correctly in storybook
+
+// TODO add image
+
+- We can also add an error test case while we're at it:
+
+```ts
+// components/ExampleForm.stories.tsx
+
+export const Error: Story = (args) => <ExampleForm {...args} />;
+// we can mock responses from different endpoints by providing an array of
+// responses under the msw key
+Error.parameters = {
+  msw: [
+    rest.post(`${url}/api/user-info`, (req, res, ctx) => {
+      return res(
+        ctx.status(500),
+        ctx.json({
+          status: "error",
+          errorMessage: "Some server error",
+          body: req.body,
+        })
+      );
+    }),
+  ],
+};
+```
+
+```ts
+// components/ExampleForm.tsx
+...
+  if (error) {
+      return <div>With much regret there was an error</div>
+  }
+...
+```
 
 #### Collaboration and testing
 
--- deploy storybook
--- run chromatic
--- check against baselines get others to check and comment
+- Once we are happy with our new feature we can push our changes and create a pull request
+- Chromatic is set to run on each push and will capture screenshots of any stories we have created
+- On future pull requests chromatic will compare screenshots to there accepted baselines and notify reviewers of any visual changes which they are then able to accept or reject
+- Once all changes have been confirmed and a code review has been completed our new feature can be merged
 
-### Refs:
+### Refs
 
 This document is based mainly on the following articles/documents:
 
-##### Creating and testing UIs
-* [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
-* [The delightful storybook  - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
-* [Component driven](https://www.componentdriven.org/)
-* [UI testing playbook](https://storybook.js.org/blog/ui-testing-playbook/)
-* [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
-* [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)
+#### Creating and testing UIs
 
-##### Living documents
-* [Rethinking docs](https://kathykorevec.medium.com/building-a-better-place-for-docs-197f92765409)
+- [Storybook visual testing handbook](https://storybook.js.org/tutorials/visual-testing-handbook)
+- [The delightful storybook - chromatic](https://www.chromatic.com/blog/the-delightful-storybook-workflow/)
+- [Component driven](https://www.componentdriven.org/)
+- [UI testing playbook](https://storybook.js.org/blog/ui-testing-playbook/)
+- [Stories are tests](https://storybook.js.org/blog/stories-are-tests/)
+- [How to actually test UIs](https://storybook.js.org/blog/how-to-actually-test-uis/)
 
-##### Golden Paths
-* [Spotify: the golden path](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/)
+#### Living documents
+
+- [Rethinking docs](https://kathykorevec.medium.com/building-a-better-place-for-docs-197f92765409)
+
+#### Golden Paths
+
+- [Spotify: the golden path](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/)

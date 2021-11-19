@@ -1,4 +1,4 @@
-# Proposed Workflow for TDD on console
+# Proposed Workflow for Test Driven Development on console
 
 ## Purpose
 

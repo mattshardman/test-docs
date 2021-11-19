@@ -591,7 +591,7 @@ if (data?.status === "success") {
 
 - And check that it renders correctly in storybook
 
-// TODO add image
+![image info](./success-message.png)
 
 - We can also add an error test case while we're at it:
 
@@ -625,6 +625,10 @@ Error.parameters = {
   }
 ...
 ```
+
+- Finally check the error message renders correctly:
+
+![image info](./error-message.png)
 
 ### Collaboration and testing
 

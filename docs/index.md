@@ -5,8 +5,6 @@
 Outline the ['golden path'](https://engineering.atspotify.com/2020/08/17/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem/) for creating a new feature or component in the console ui
 Provide step by step instructions for how to create and test a new feature or component
 Describe in detail how we approach building UIs at Hasura using Test driven development
-what is a feature...
-what is a component...
 
 Shouldn't be considered 'set in stone', comments, criticism etc. are welcome.
 
